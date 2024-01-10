@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        nextBtn.setEnabled(true);
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, CompareActivity.class);
                 i.putExtra("name", "Marc");
                 startActivity(i);
+
             }
         });
 
