@@ -3,14 +3,19 @@ package dev.marc.m335.weathercompareapp;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
 
 
 public class TemperatureSensorService extends Service implements SensorEventListener {
@@ -18,6 +23,7 @@ public class TemperatureSensorService extends Service implements SensorEventList
 
     private SensorManager sensorManager;
     private Sensor ambientTemperatureSensor;
+
 
     @Override
     public void onCreate() {
@@ -31,6 +37,16 @@ public class TemperatureSensorService extends Service implements SensorEventList
         } else {
             Toast.makeText(this, "Temperature Sensor Nicht Ereichbar oder Vorhanden", Toast.LENGTH_SHORT).show();
         }
+
+    /*    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            System.out.println(longitude);
+        }
+*/
+
     }
 
     private void sendTemperatureBroadcast(float temperature) {
@@ -38,6 +54,7 @@ public class TemperatureSensorService extends Service implements SensorEventList
         intent.putExtra("TEMPERATURE", temperature);
         sendBroadcast(intent);
     }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_AMBIENT_TEMPERATURE) {
