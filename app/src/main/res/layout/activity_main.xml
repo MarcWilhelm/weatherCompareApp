@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultActivity">
+    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout2"
@@ -30,7 +30,7 @@
                 android:id="@+id/titleResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please Enter Name"
+                android:text="Please Enter Name and an OpenWeather API Key"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/name"
+                android:id="@+id/nameTextfield"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="1dp"
@@ -84,7 +84,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Please Enter your Api Key" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +94,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"
             android:text="Next"
-            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
