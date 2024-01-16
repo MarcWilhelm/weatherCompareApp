@@ -26,22 +26,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CompareActivity extends AppCompatActivity {
 
     TemperatureSensorService mService;
+
+    ApiTemperatureSensorService tempService;
     boolean mBound = false;
 
-
-    Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-            .create();
-
-    public static final String BASE_URL = "https://api.openweathermap.org/";
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-    MyAPIEndpointInterface apiService =
-            retrofit.create(MyAPIEndpointInterface.class);
-
+    boolean mBoundApi = false;
 
 
     @Override
@@ -55,9 +44,7 @@ public class CompareActivity extends AppCompatActivity {
             String name = exttras.getString("name");
             TextView nameText = (TextView) findViewById(R.id.yourName);
             nameText.setText(name);
-
         }
-        getTemperature();
     }
 
     private BroadcastReceiver temperatureReceiver = new BroadcastReceiver() {
@@ -71,17 +58,32 @@ public class CompareActivity extends AppCompatActivity {
         }
     };
 
+    private BroadcastReceiver apiTemperatureReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction() != null && intent.getAction().equals("updateApiTemp")) {
+                double temperature = intent.getDoubleExtra("TEMPERATUREAPI", 0.0);
+                TextView temperatureSensor = (TextView) findViewById(R.id.tempreatureApi);
+                temperatureSensor.setText(String.valueOf(temperature));
+            }
+        }
+    };
+
+
     @Override
     protected void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter("updateTemp");
+        IntentFilter apifilter = new IntentFilter("updateApiTemp");
         registerReceiver(temperatureReceiver, filter);
+        registerReceiver(apiTemperatureReceiver, apifilter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(temperatureReceiver);
+        unregisterReceiver(apiTemperatureReceiver);
     }
 
     @Override
@@ -90,6 +92,10 @@ public class CompareActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TemperatureSensorService.class);
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
         startService(intent);
+
+        Intent intentApi = new Intent(this, ApiTemperatureSensorService.class);
+        bindService(intentApi, apiConnection, Context.BIND_AUTO_CREATE);
+        startService(intentApi);
     }
 
     @Override
@@ -97,6 +103,9 @@ public class CompareActivity extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         mBound = false;
+
+        unbindService(apiConnection);
+        mBoundApi = false;
     }
 
     private final ServiceConnection connection = new ServiceConnection() {
@@ -113,30 +122,18 @@ public class CompareActivity extends AppCompatActivity {
         }
     };
 
-    private void getTemperature() {
-        System.out.println("Temperature");
 
-        Call<WeatherData> call = apiService.getUser();
-        call.enqueue(new Callback<WeatherData>() {
-            @Override
-            public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
-                int statusCode = response.code();
-                WeatherData user = response.body();
-                assert user != null;
+    private final ServiceConnection apiConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            ApiTemperatureSensorService.LocalBinder binder = (ApiTemperatureSensorService.LocalBinder) service;
+            tempService = binder.getService();
+            mBoundApi = true;
+        }
 
-                TextView temperatureApi = (TextView) findViewById(R.id.tempreatureApi);
-                temperatureApi.setText(String.valueOf(user.getCurrent().getTemp()));
-
-            }
-
-            @Override
-            public void onFailure(Call<WeatherData> call, Throwable t) {
-                System.out.println(t);
-                // Log error here since request failed
-            }
-        });
-
-
-
-    }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBoundApi = false;
+        }
+    };
 }

@@ -18,7 +18,7 @@
         <service
             android:name=".ApiTemperatureSensorService"
             android:enabled="true"
-     />
+         />
         <service
             android:name=".TemperatureSensorService"
             android:enabled="true"

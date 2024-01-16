@@ -33,20 +33,9 @@ public class TemperatureSensorService extends Service implements SensorEventList
 
         if (ambientTemperatureSensor != null) {
             sensorManager.registerListener(this, ambientTemperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            sendTemperatureBroadcast(25);
         } else {
             Toast.makeText(this, "Temperature Sensor Nicht Ereichbar oder Vorhanden", Toast.LENGTH_SHORT).show();
         }
-
-    /*    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            System.out.println(longitude);
-        }
-*/
-
     }
 
     private void sendTemperatureBroadcast(float temperature) {
@@ -65,15 +54,12 @@ public class TemperatureSensorService extends Service implements SensorEventList
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Unregister sensor listener
         sensorManager.unregisterListener(this);
     }
 
@@ -83,9 +69,7 @@ public class TemperatureSensorService extends Service implements SensorEventList
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
 
     public TemperatureSensorService() {
