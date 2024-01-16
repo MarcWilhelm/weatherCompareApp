@@ -1,19 +1,20 @@
 package dev.marc.m335.weathercompareapp;
 
+import static android.content.Intent.getIntent;
+
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.Objects;
 
 import dev.marc.m335.weathercompareapp.model.WeatherData;
 import retrofit2.Call;
@@ -24,13 +25,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiTemperatureSensorService extends Service implements SensorEventListener {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        System.out.println("getsExecutedApiTemp");
-        getTemperature();
-    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        String apiKey = intent.getExtras().getString("apiKey");
+
+        getTemperature(apiKey);
+        return START_REDELIVER_INTENT;
+
+    }
 
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
@@ -49,9 +53,9 @@ public class ApiTemperatureSensorService extends Service implements SensorEventL
 
     }
 
-    private void getTemperature() {
+    private void getTemperature(String apiKey) {
         System.out.println("getTemperature()gets executed");
-        Call<WeatherData> call = apiService.getUser("33.44", "-94.04", "f75480f4a3e76d1ecfd2594d998e0786");
+        Call<WeatherData> call = apiService.getUser("33.44", "-94.04", apiKey);
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {

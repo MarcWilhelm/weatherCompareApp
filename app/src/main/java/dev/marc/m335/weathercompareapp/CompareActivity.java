@@ -1,7 +1,5 @@
 package dev.marc.m335.weathercompareapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,15 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import dev.marc.m335.weathercompareapp.model.WeatherData;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class CompareActivity extends AppCompatActivity {
@@ -32,6 +22,7 @@ public class CompareActivity extends AppCompatActivity {
 
     boolean mBoundApi = false;
 
+String apiKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +30,12 @@ public class CompareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compare);
 
         Bundle exttras = getIntent().getExtras();
-        System.out.println(exttras.getString("apiKey"));
+        assert exttras != null;
+        apiKey = exttras.getString("apiKey");
+        String name = exttras.getString("nameOfUser");
+        TextView nameText = (TextView) findViewById(R.id.yourName);
+        nameText.setText(name);
 
-        if (exttras != null) {
-            String name = exttras.getString("name");
-            TextView nameText = (TextView) findViewById(R.id.yourName);
-            nameText.setText(name);
-        }
     }
 
     private BroadcastReceiver temperatureReceiver = new BroadcastReceiver() {
@@ -96,6 +86,7 @@ public class CompareActivity extends AppCompatActivity {
 
         Intent intentApi = new Intent(this, ApiTemperatureSensorService.class);
         bindService(intentApi, apiConnection, Context.BIND_AUTO_CREATE);
+        intentApi.putExtra("apiKey", apiKey);
         startService(intentApi);
     }
 
