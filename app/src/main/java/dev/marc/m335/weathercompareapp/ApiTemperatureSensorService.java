@@ -54,7 +54,7 @@ public class ApiTemperatureSensorService extends Service {
     }
 
     private void getTemperature(String apiKey) {
-        Call<WeatherData> call = apiService.getUser("33.44", "-94.04", apiKey);
+        Call<WeatherData> call = apiService.getUser("47.376888", "8.541694", apiKey);
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
