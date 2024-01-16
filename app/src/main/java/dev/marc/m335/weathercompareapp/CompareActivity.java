@@ -34,7 +34,7 @@ String apiKey;
         apiKey = exttras.getString("apiKey");
         String name = exttras.getString("nameOfUser");
         TextView nameText = (TextView) findViewById(R.id.yourName);
-        nameText.setText(name);
+        nameText.setText("Guten Tag "+ name);
 
     }
 
