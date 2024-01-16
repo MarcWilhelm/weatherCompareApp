@@ -33,7 +33,7 @@ public class Current {
     private Double dewPoint;
     @SerializedName("uvi")
     @Expose
-    private Integer uvi;
+    private Double uvi;
     @SerializedName("clouds")
     @Expose
     private Integer clouds;
@@ -114,11 +114,11 @@ public class Current {
         this.dewPoint = dewPoint;
     }
 
-    public Integer getUvi() {
+    public Double getUvi() {
         return uvi;
     }
 
-    public void setUvi(Integer uvi) {
+    public void setUvi(Double uvi) {
         this.uvi = uvi;
     }
 
