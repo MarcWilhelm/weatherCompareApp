@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent i = new Intent(MainActivity.this, CompareActivity.class);
-                i.putExtra("name", nameInput.getEditText().getText());
-                i.putExtra("apiKey", apiIdInput.getEditText().getText());
+                i.putExtra("name", "Marc");
+                i.putExtra("apiKey", Objects.requireNonNull(apiIdInput.getEditText()).getText());
                 startActivity(i);
 
             }
