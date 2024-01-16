@@ -23,7 +23,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiTemperatureSensorService extends Service implements SensorEventListener {
+public class ApiTemperatureSensorService extends Service {
 
 
     @Override
@@ -54,12 +54,12 @@ public class ApiTemperatureSensorService extends Service implements SensorEventL
     }
 
     private void getTemperature(String apiKey) {
-        System.out.println("getTemperature()gets executed");
         Call<WeatherData> call = apiService.getUser("33.44", "-94.04", apiKey);
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
                 int statusCode = response.code();
+                System.out.println(statusCode);
                 WeatherData user = response.body();
                 assert user != null;
                 System.out.println(user.getCurrent().getTemp());
@@ -91,17 +91,6 @@ public class ApiTemperatureSensorService extends Service implements SensorEventL
         }
 
     }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
-
 
     private void sendTemperatureBroadcast(double temperature) {
         Intent intent = new Intent("updateApiTemp");

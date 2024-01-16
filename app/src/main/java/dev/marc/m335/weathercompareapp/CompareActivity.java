@@ -54,6 +54,7 @@ String apiKey;
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() != null && intent.getAction().equals("updateApiTemp")) {
                 double temperature = intent.getDoubleExtra("TEMPERATUREAPI", 0.0);
+                System.out.println(temperature);
                 TextView temperatureSensor = (TextView) findViewById(R.id.tempreatureApi);
                 temperatureSensor.setText(String.valueOf(temperature));
             }

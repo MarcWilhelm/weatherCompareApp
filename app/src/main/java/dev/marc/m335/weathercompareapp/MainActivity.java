@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
         TextInputLayout nameInput = (TextInputLayout) findViewById(R.id.nameTextfield);
         TextInputLayout apiIdInput = (TextInputLayout) findViewById(R.id.apiKeyLayout);
 
-        ActivityCompat.requestPermissions(this,
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+          nextBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
