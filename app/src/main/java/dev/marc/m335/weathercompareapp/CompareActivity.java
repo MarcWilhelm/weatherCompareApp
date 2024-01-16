@@ -39,6 +39,7 @@ public class CompareActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compare);
 
         Bundle exttras = getIntent().getExtras();
+        System.out.println(exttras.getString("apiKey"));
 
         if (exttras != null) {
             String name = exttras.getString("name");

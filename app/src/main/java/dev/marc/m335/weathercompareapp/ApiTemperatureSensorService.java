@@ -51,7 +51,7 @@ public class ApiTemperatureSensorService extends Service implements SensorEventL
 
     private void getTemperature() {
         System.out.println("getTemperature()gets executed");
-        Call<WeatherData> call = apiService.getUser();
+        Call<WeatherData> call = apiService.getUser("33.44", "-94.04", "f75480f4a3e76d1ecfd2594d998e0786");
         call.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {

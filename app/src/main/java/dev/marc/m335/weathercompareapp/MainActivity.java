@@ -14,6 +14,8 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
 
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button nextBtn = (Button) findViewById(R.id.nextButton);
         TextInputLayout nameInput = (TextInputLayout) findViewById(R.id.name);
-        nameInput.getEditText().addTextChangedListener(new TextWatcher() {
+    /*   nameInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (charSequence.toString().trim().length() == 0) {
@@ -43,11 +45,36 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+*/
+        TextInputLayout apiIdInput = (TextInputLayout) findViewById(R.id.apiKeyLayout);
+    /*    nameInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().trim().length() == 0) {
+                    nextBtn.setEnabled(false);
+                } else {
+                    nextBtn.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });*/
+
+
 
         nextBtn.setEnabled(true);
         ActivityCompat.requestPermissions(this,
                 new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
+
+        System.out.println(apiIdInput.getEditText());
         nextBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -55,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, CompareActivity.class);
                 i.putExtra("name", "Marc");
+                i.putExtra("apiKey", apiIdInput.getEditText().getText());
                 startActivity(i);
 
             }
